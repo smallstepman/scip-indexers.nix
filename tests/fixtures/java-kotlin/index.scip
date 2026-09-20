@@ -1,0 +1,11 @@
+
+^
+	scip-java0.0.0-SNAPSHOT=file:///Users/m/Projects/scip-nix/tests/fixtures/java-kotlin/ §
+src/main/java/Hello.java*scip-java maven . . Hello#BZ /%scip-java maven . . Hello#`<init>`().B7!scip-java maven . . Hello#main().BZ 2(scip-java maven jdk 21 java/lang/String#B local 0B#'R'2(scip-java maven jdk 21 java/lang/String#B
+local 1BR%2(scip-java maven jdk 21 java/lang/System#B
+6,scip-java maven jdk 21 java/lang/System#out.BA7scip-java maven jdk 21 java/io/PrintStream#println(+8).Blocal 1BG
+scip-java maven . . Hello#(2Hello: "java*public final class HelloI
+%scip-java maven . . Hello#`<init>`().(	2<init>:"java*public Hello()[
+!scip-java maven . . Hello#main().(P2main:."java*&public static void main(String[] args)I
+local 02args:"java*String[] argsB!scip-java maven . . Hello#main().O
+local 1(=2message:"java*String messageB!scip-java maven . . Hello#main()."java
