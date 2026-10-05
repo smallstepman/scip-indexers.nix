@@ -33,6 +33,7 @@ pkgs.dockerTools.streamLayeredImage {
     go # scip-go
     jdk21 gradle maven # scip-java
     cargo rustc # rust-analyzer scip
+    (python3.withPackages (ps: [ ps.pip ])) # scip-python shells out to pip
   ]);
   extraCommands = "mkdir -m 1777 tmp";
   config = {
