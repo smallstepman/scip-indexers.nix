@@ -16,6 +16,7 @@ env:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - { arch: amd64, runner: ubuntu-24.04 }
@@ -31,7 +32,7 @@ jobs:
 
       - name: Build image
         run: |
-          nix build .#docker-image --print-build-logs
+          nix build .#docker-image --print-build-logs --keep-going
           ./result | docker load
 
       - name: Smoke test
