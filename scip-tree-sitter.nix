@@ -5,7 +5,7 @@ pkgs.rustPlatform.buildRustPackage {
   src = pkgs.fetchFromGitHub {
     owner = "jelmer";
     repo = "scip-tools";
-    rev = "main";
+    rev = "a4d7b78acbd26b9407bbab59b4276e07896c5c1f";
     hash = "sha256-/GwCEerVtbHsTIlLNRw44JTDGxhbpl87fUD7irtfcdY=";
   };
   cargoHash = "sha256-zNRrmHGHGIYnZRpOZfykGcyhICCYvwqKe36aHWFFidI=";

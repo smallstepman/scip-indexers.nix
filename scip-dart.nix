@@ -1,22 +1,17 @@
 { pkgs }:
-pkgs.stdenvNoCC.mkDerivation {
+pkgs.buildDartApplication {
   pname = "scip_dart";
   version = "1.6.2";
   src = pkgs.fetchFromGitHub {
     owner = "Workiva";
     repo = "scip-dart";
-    rev = "master";
+    rev = "5b37dc9a71dc255556bf4f3cefe967ac8e6e08f2";
     hash = "sha256-N7UWNjlm7i0R6xzh51k1IfSB4kGW7surEMEzE+sBCIg=";
   };
-  nativeBuildInputs = [ pkgs.dart pkgs.darwin.sigtool pkgs.darwin.cctools ];
-  buildPhase = ''
-    export PUB_CACHE=$TMPDIR/pub-cache
-    dart pub get
-    dart compile exe bin/scip_dart.dart -o scip_dart
-  '';
-  installPhase = ''
-    install -Dm755 scip_dart $out/bin/scip_dart
-  '';
+  # Upstream does not commit pubspec.lock; regenerate with `dart pub get` and
+  # `yq -o=json . pubspec.lock` when bumping `rev`.
+  pubspecLock = pkgs.lib.importJSON ./scip-dart-pubspec.lock.json;
+  dartEntryPoints."bin/scip_dart" = "bin/scip_dart.dart";
   meta = {
     description = "SCIP indexer for Dart";
     homepage = "https://github.com/Workiva/scip-dart";

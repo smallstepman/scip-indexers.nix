@@ -22,7 +22,7 @@ pkgs.stdenv.mkDerivation {
   src = pkgs.fetchFromGitHub {
     owner = "jarvis-intelligence";
     repo = "scip-swift";
-    rev = "main";
+    rev = "4ad1ce9e4826785604aed5fd529913efb1733df7";
     hash = "sha256-GPYsuBFFJQaZRcsvVUBojzTExq27p0CLVxrMR/OkWOc=";
   };
   nativeBuildInputs = [ pkgs.swiftPackages.swift pkgs.swiftPackages.swiftpm ];

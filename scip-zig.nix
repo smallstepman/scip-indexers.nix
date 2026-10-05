@@ -20,7 +20,7 @@ pkgs.stdenv.mkDerivation {
   src = pkgs.fetchFromGitHub {
     owner = "zigtools";
     repo = "scip-zig";
-    rev = "main";
+    rev = "71505e37746027b307f3795b15674844453f1de5";
     hash = "sha256-NQgmHfvuQbHNuJNLqgY4BRmbpULIP/YUahc9EVCovDs=";
   };
   nativeBuildInputs = [ pkgs.zig ];

@@ -1,0 +1,71 @@
+name: docker-image
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/smallstepman/scip-indexers
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - { arch: amd64, runner: ubuntu-24.04 }
+          - { arch: arm64, runner: ubuntu-24.04-arm }
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Free disk space
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache
+
+      - uses: actions/checkout@v5
+
+      - uses: cachix/install-nix-action@v31
+
+      - name: Build image
+        run: |
+          nix build .#docker-image --print-build-logs
+          ./result | docker load
+
+      - name: Smoke test
+        run: |
+          index() {
+            dir=tests/fixtures/$1; shift
+            rm -f "$dir/index.scip"
+            docker run --rm -v "$PWD/$dir:/src" "$IMAGE:latest" -- "$@"
+            test -s "$dir/index.scip"
+          }
+          docker run --rm "$IMAGE:latest" | grep scip-go
+          index go scip-go
+          index rust rust-analyzer scip .
+          index python scip-python index . --project-name hello --project-version 0.1.0
+          if [ "${{ matrix.arch }}" = amd64 ]; then
+            docker run --rm "$IMAGE:latest" -- scip-clang --help >/dev/null
+            docker run --rm "$IMAGE:latest" -- scip-ruby --version
+          fi
+
+      - name: Push arch image
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker tag "$IMAGE:latest" "$IMAGE:${{ github.sha }}-${{ matrix.arch }}"
+          docker push "$IMAGE:${{ github.sha }}-${{ matrix.arch }}"
+
+  publish:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Push multi-arch manifest
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker buildx imagetools create \
+            -t "$IMAGE:latest" -t "$IMAGE:${{ github.sha }}" \
+            "$IMAGE:${{ github.sha }}-amd64" "$IMAGE:${{ github.sha }}-arm64"

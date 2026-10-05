@@ -5,7 +5,7 @@ pkgs.rustPlatform.buildRustPackage {
   src = pkgs.fetchFromGitHub {
     owner = "gnufood";
     repo = "psql-scip";
-    rev = "main";
+    rev = "63c672786eadb34aceb304e4432a3b6d8ad403c3";
     hash = "sha256-n4mK3GRrqv2IwtFynyvxXpIVoLKRfjQf2xMCmmQO7Ps=";
   };
   cargoHash = "sha256-o8dGWyNBdenbfa1+vrKai/QZKKWiF9FTGwz3abuJFWk=";

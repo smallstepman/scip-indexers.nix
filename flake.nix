@@ -38,6 +38,8 @@
             # upstream sources do not build with the toolchain in nixpkgs.
             paths = builtins.attrValues packages;
           };
+        } // pkgs.lib.optionalAttrs pkgs.stdenv.hostPlatform.isLinux {
+          docker-image = import ./docker-image.nix { inherit pkgs packages; };
         };
     in {
       packages = forAllSystems packagesFor;

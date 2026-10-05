@@ -9,6 +9,7 @@ devenv.local.yaml
 # pre-commit
 .pre-commit-config.yaml
 *.json
+!scip-dart-pubspec.lock.json
 .gradle/
 build/
 Debug/

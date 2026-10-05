@@ -15,7 +15,8 @@ pkgs.stdenvNoCC.mkDerivation {
   installPhase = ''
     mkdir -p "$out/lib/scip-dotnet" "$out/bin"
     cp -r . "$out/lib/scip-dotnet/"
-    makeWrapper ${pkgs.dotnetCorePackages.runtime_10_0}/bin/dotnet "$out/bin/scip-dotnet" \
+    # scip-dotnet loads projects through MSBuild, which needs the SDK, not just the runtime.
+    makeWrapper ${pkgs.dotnetCorePackages.sdk_10_0}/bin/dotnet "$out/bin/scip-dotnet" \
       --add-flags "$out/lib/scip-dotnet/tools/net10.0/any/scip-dotnet.dll"
   '';
   meta = {

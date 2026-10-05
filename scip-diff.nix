@@ -5,7 +5,7 @@ pkgs.rustPlatform.buildRustPackage {
   src = pkgs.fetchFromGitHub {
     owner = "jelmer";
     repo = "diff-lsp";
-    rev = "master";
+    rev = "4f0a0a92263c20cd7a52c0e745a6afed6115217d";
     hash = "sha256-JaigxnjhrDVEiX3ROv2ZX9EhgzVwmXBQPfnYV4ylI2c=";
   };
   postInstall = ''
